@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,11 +42,13 @@ public class TicketService {
         }
         boolean isParked = availabilityService.getSpot(vehicle);
         if(!isParked) {
+            printUnsuccessfullCheckInMessage();
             return null;
         }
         Ticket ticket = new Ticket();
         ticket.setCheckIn(Instant.now());
         ticket.setVehicle(vehicle);
+        printSuccessfullCheckInMessage(ticket);
         ticketRepository.save(ticket);
         vehicleRepository.save(vehicle);
         return ticket;
@@ -63,10 +67,13 @@ public class TicketService {
             int hours = duration.toHoursPart() + 1;
             int payment = calculatePayment(hours);
             ticket.get().setPaymentAmount(payment);
+            printSuccessfullCheckOutMessage(ticket.get());
             ticketRepository.save(ticket.get());
             vehicleRepository.save(vehicle);
+            return ticket.get();
         }
-        return ticket.isPresent() ? ticket.get() : null;
+        printUnsuccessfullCheckOutMessage();
+        return null;
     }
 
     private int calculatePayment(int hours) {
@@ -79,5 +86,30 @@ public class TicketService {
         } return 7 + (hours-3);
     }
 
+    private void printSuccessfullCheckInMessage(Ticket ticket) {
+        logger.info("Check-in time "+ getDateOfInstant(ticket.getCheckIn())+
+                " for the vehicle with "+ticket.getVehicle().getLicencePlate()+" licence plate");
+    }
+
+    private void printUnsuccessfullCheckInMessage() {
+        logger.info("Ticket not created since no space found for the vehicle");
+    }
+
+    private void printSuccessfullCheckOutMessage(Ticket ticket) {
+        logger.info("Check-out time "+ getDateOfInstant(ticket.getCheckOut())+
+                " for the vehicle with "+ticket.getVehicle().getLicencePlate()+" licence plate. Total payment is "+
+                    ticket.getPaymentAmount());
+    }
+
+    private void printUnsuccessfullCheckOutMessage() {
+        logger.info("Vehicle has no check-in ticket!");
+    }
+
+    private String getDateOfInstant(Instant instant) {
+        Date myDate = Date.from(instant);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+        String formattedDate = formatter.format(myDate);
+        return formattedDate;
+    }
 
 }
