@@ -19,6 +19,7 @@ import java.util.List;
 public class GarageService {
 
     final FloorRepository floorRepository;
+    final ParkSpotRepository parkSpotRepository;
 
     public void createGarage(int numberOfFloors, int numberOfParkingSpots) {
         ArrayList<Floor> floors = new ArrayList<>();
@@ -36,6 +37,16 @@ public class GarageService {
             floors.add(floor);
         }
         floorRepository.saveAll(floors);
+    }
+
+    public int getSpots() {
+        int result = 0;
+        for(ParkSpot parkSpot: parkSpotRepository.findAll()) {
+            if(parkSpot.getVehicles().size() ==0) {
+                result++;
+            }
+        }
+        return result;
     }
 
 }
