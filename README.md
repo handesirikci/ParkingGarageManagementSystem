@@ -30,6 +30,8 @@ __Endpoints__
 | `POST`   | `/checkIn`             | Takes the vehicle object as the request body and creates a ticket if there is enough space in garage    |
 | `POST`   | `/checkOut`               | Takes the vehicle object as the request body and updates the relevant ticket by giving the payment info |
 
+__Request Examples__
+
 request POST 'localhost:8080/checkIn' \
 --header 'Content-Type: application/json' \
 --data-raw '{
