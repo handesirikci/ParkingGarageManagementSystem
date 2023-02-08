@@ -8,5 +8,6 @@ import java.util.ArrayList;
 @Entity
 @DiscriminatorValue("BUS")
 public class Bus extends Vehicle{
+    public static final int REQUIRED_SPOTS = 4;
 
 }
