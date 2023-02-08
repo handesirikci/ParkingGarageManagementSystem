@@ -16,4 +16,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     @Query("SELECT t FROM Ticket t WHERE t.vehicle.id = :vehicleId")
     Optional<Ticket> getTicketWithVehicle(@Param("vehicleId") Long vehicleId);
+
+    Optional<Ticket> findByVehicle_Id(Long vehicleId);
+    Optional<Ticket> findByVehicle_LicencePlate(String licencePlate);
 }

@@ -26,8 +26,9 @@ public class GarageController {
     }
 
     @GetMapping("/getSpots")
-    void getSpots() {
-        int availableSpots = garageService.getSpots();
+    Integer getSpots() {
+        Integer availableSpots = garageService.getSpots();
         logger.info("Number of available parking spots is "+availableSpots);
+        return availableSpots;
     }
 }

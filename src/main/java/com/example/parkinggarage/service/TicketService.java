@@ -1,6 +1,5 @@
 package com.example.parkinggarage.service;
 
-import com.example.parkinggarage.controller.TicketController;
 import com.example.parkinggarage.model.Ticket;
 import com.example.parkinggarage.model.Vehicle;
 import com.example.parkinggarage.repository.ParkSpotRepository;
@@ -9,6 +8,7 @@ import com.example.parkinggarage.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -34,12 +34,12 @@ public class TicketService {
     }
 
     public Ticket checkIn(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
-        Optional<Ticket> ticketMaybe = ticketRepository.getTicketWithVehicle(vehicle.getId());
+        Optional<Ticket> ticketMaybe = ticketRepository.findByVehicle_LicencePlate(vehicle.getLicencePlate());
         if(ticketMaybe.isPresent()) {
             logger.info("Vehicle is already checked in!");
             return ticketMaybe.get();
         }
+        vehicleRepository.save(vehicle);
         boolean isParked = availabilityService.getSpot(vehicle);
         if(!isParked) {
             printUnsuccessfullCheckInMessage();
@@ -56,7 +56,7 @@ public class TicketService {
 
     public Ticket checkOut(Vehicle vehicle) {
         Instant checkOutTime = Instant.now();
-        Optional<Ticket> ticket = ticketRepository.getTicketWithVehicle(vehicle.getId());
+        Optional<Ticket> ticket = ticketRepository.findByVehicle_LicencePlate(vehicle.getLicencePlate());
         if(ticket.isPresent()) {
             if(ticket.get().getPaymentAmount()!=0) {
                 logger.info("Vehicle is already checked out!");
@@ -69,7 +69,6 @@ public class TicketService {
             ticket.get().setPaymentAmount(payment);
             printSuccessfullCheckOutMessage(ticket.get());
             ticketRepository.save(ticket.get());
-            vehicleRepository.save(vehicle);
             return ticket.get();
         }
         printUnsuccessfullCheckOutMessage();
@@ -110,6 +109,15 @@ public class TicketService {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
         String formattedDate = formatter.format(myDate);
         return formattedDate;
+    }
+
+    private Optional<Ticket> getTicketIfExists(Vehicle vehicle) {
+        for(Ticket ticket: ticketRepository.findAll()) {
+            if(ticket.getVehicle().equals(vehicle)) {
+                return Optional.of(ticket);
+            }
+        }
+        return Optional.empty();
     }
 
 }

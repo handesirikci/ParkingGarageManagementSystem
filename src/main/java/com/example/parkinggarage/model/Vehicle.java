@@ -16,9 +16,9 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(unique = true)
     String licencePlate;
     int requiredSpots;
 
     VehicleType vehicleType;
-
 }
