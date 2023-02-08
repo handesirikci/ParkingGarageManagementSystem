@@ -21,7 +21,7 @@ $ mvn spring-boot:run
 
 __Endpoints__
 
-**Please see the program responses on log messages**
+**Please see the program responses from log messages**
 
 | Method   | URL                                      | Description                              |
 | -------- | ---------------------------------------- | ---------------------------------------- |
