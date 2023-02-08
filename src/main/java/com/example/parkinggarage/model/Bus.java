@@ -9,9 +9,4 @@ import java.util.ArrayList;
 @DiscriminatorValue("BUS")
 public class Bus extends Vehicle{
 
-    public static final int REQUIRED_SPOTS = 4;
-    public Bus(String licencePlate) {
-        requiredSpots = REQUIRED_SPOTS;
-        vehicleType = VehicleType.BUS;
-    }
 }

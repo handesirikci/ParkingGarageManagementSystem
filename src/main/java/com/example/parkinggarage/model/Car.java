@@ -10,9 +10,5 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("CAR")
 public class Car extends Vehicle{
-    static final int REQUIRED_SPOTS = 1;
-    public Car() {
-        requiredSpots = REQUIRED_SPOTS;
-        vehicleType = VehicleType.CAR;
-    }
+
 }

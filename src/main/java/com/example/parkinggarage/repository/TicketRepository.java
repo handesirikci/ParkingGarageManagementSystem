@@ -19,4 +19,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Optional<Ticket> findByVehicle_Id(Long vehicleId);
     Optional<Ticket> findByVehicle_LicencePlate(String licencePlate);
+    Optional<Ticket> findByCheckOutIsNullAndVehicle_LicencePlateEquals(String licencePlate);
 }

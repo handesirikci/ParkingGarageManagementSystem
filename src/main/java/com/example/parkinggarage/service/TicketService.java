@@ -34,29 +34,34 @@ public class TicketService {
     }
 
     public Ticket checkIn(Vehicle vehicle) {
-        Optional<Ticket> ticketMaybe = ticketRepository.findByVehicle_LicencePlate(vehicle.getLicencePlate());
+        Optional<Vehicle> vehicleMaybe = vehicleRepository.findByLicencePlate(vehicle.getLicencePlate());
+        Vehicle existingVehicle;
+        if (vehicleMaybe.isEmpty()) {
+            existingVehicle = vehicleRepository.save(vehicle);
+        } else {
+            existingVehicle = vehicleMaybe.get();
+        }
+        Optional<Ticket> ticketMaybe = ticketRepository.findByCheckOutIsNullAndVehicle_LicencePlateEquals(vehicle.getLicencePlate());
         if(ticketMaybe.isPresent()) {
             logger.info("Vehicle is already checked in!");
             return ticketMaybe.get();
         }
-        vehicleRepository.save(vehicle);
-        boolean isParked = availabilityService.getSpot(vehicle);
+        boolean isParked = availabilityService.getSpot(existingVehicle);
         if(!isParked) {
             printUnsuccessfullCheckInMessage();
             return null;
         }
         Ticket ticket = new Ticket();
         ticket.setCheckIn(Instant.now());
-        ticket.setVehicle(vehicle);
+        ticket.setVehicle(existingVehicle);
         printSuccessfullCheckInMessage(ticket);
         ticketRepository.save(ticket);
-        vehicleRepository.save(vehicle);
         return ticket;
     }
 
     public Ticket checkOut(Vehicle vehicle) {
         Instant checkOutTime = Instant.now();
-        Optional<Ticket> ticket = ticketRepository.findByVehicle_LicencePlate(vehicle.getLicencePlate());
+        Optional<Ticket> ticket = ticketRepository.findByCheckOutIsNullAndVehicle_LicencePlateEquals(vehicle.getLicencePlate());
         if(ticket.isPresent()) {
             if(ticket.get().getPaymentAmount()!=0) {
                 logger.info("Vehicle is already checked out!");

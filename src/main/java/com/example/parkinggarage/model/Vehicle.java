@@ -18,7 +18,5 @@ public class Vehicle {
 
     @Column(unique = true)
     String licencePlate;
-    int requiredSpots;
-
     VehicleType vehicleType;
 }
