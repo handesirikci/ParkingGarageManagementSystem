@@ -18,3 +18,14 @@ __Setup__
 To run this project, be sure that mvn 4.0.0 is installed. Then run the command below:
 
 $ mvn spring-boot:run
+
+__Endpoints__
+
+Now that we’ve learned about the anatomy of our endpoints and the different request methods that we should use, it’s time for some examples:
+
+| Method   | URL                                      | Description                              |
+| -------- | ---------------------------------------- | ---------------------------------------- |
+| `POST`   | `/createGarage/{numberOfFloors}/{numberOfParkSpots}`  | Creates the garage by taking the first parameter as the nuber of floors and second as park spots on a floor|
+| `GET`    | `/getSpots`                          | Returns the number of fully empty parking spots                       |
+| `POST`   | `/checkIn`                 | Takes the vehicle object as the request body and creates a ticket if there is enough space in garage    |
+| `POST`   | `/checkOut`                 | Takes the vehicle object as the request body and update the relevant ticket by giving the payment info |
