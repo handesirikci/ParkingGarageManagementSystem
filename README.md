@@ -21,10 +21,11 @@ $ mvn spring-boot:run
 
 __Endpoints__
 
+**Please see the program responses on log messages**
 
 | Method   | URL                                      | Description                              |
 | -------- | ---------------------------------------- | ---------------------------------------- |
-| `POST`   | `/createGarage/{numberOfFloors}/{numberOfParkSpots}`  | Creates the garage by taking the first parameter as the nuber of floors and second as park spots on a floor|
+| `POST`   | `/createGarage/{numberOfFloors}/{numberOfParkSpots}`  | Creates the garage by taking the first parameter as the number of floors and second as park spots on a floor|
 | `GET`    | `/getSpots`                          | Returns the number of empty parking spots                       |
 | `POST`   | `/checkIn`                 | Takes the vehicle object as the request body and creates a ticket if there is enough space in garage    |
 | `POST`   | `/checkOut`                 | Takes the vehicle object as the request body and updates the relevant ticket by giving the payment info |
