@@ -23,9 +23,23 @@ __Endpoints__
 
 **Please see the program responses from log messages**
 
-| Method   | URL                                      | Description                              |
+| Method   | URL                                      | Description                              | 
 | -------- | ---------------------------------------- | ---------------------------------------- |
-| `POST`   | `/createGarage/{numberOfFloors}/{numberOfParkSpots}`  | Creates the garage by taking the first parameter as the number of floors and second as park spots on a floor|
+| `POST`   | `/createGarage/{numberOfFloors}/{numberOfParkSpots}`|   Creates the garage by taking the first parameter as the number of floors and second as park spots on a floor|
 | `GET`    | `/getSpots`                          | Returns the number of empty parking spots                       |
-| `POST`   | `/checkIn`                 | Takes the vehicle object as the request body and creates a ticket if there is enough space in garage    |
-| `POST`   | `/checkOut`                 | Takes the vehicle object as the request body and updates the relevant ticket by giving the payment info |
+| `POST`   | `/checkIn`             | Takes the vehicle object as the request body and creates a ticket if there is enough space in garage    |
+| `POST`   | `/checkOut`               | Takes the vehicle object as the request body and updates the relevant ticket by giving the payment info |
+
+request POST 'localhost:8080/checkIn' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "licencePlate": "WOBZK295",
+    "vehicleType": "BUS"
+}'
+
+request POST 'localhost:8080/checkOut' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "licencePlate": "WOBZK295",
+    "vehicleType": "BUS"
+}'
