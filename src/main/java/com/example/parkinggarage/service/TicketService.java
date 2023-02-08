@@ -8,7 +8,6 @@ import com.example.parkinggarage.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -115,14 +114,4 @@ public class TicketService {
         String formattedDate = formatter.format(myDate);
         return formattedDate;
     }
-
-    private Optional<Ticket> getTicketIfExists(Vehicle vehicle) {
-        for(Ticket ticket: ticketRepository.findAll()) {
-            if(ticket.getVehicle().equals(vehicle)) {
-                return Optional.of(ticket);
-            }
-        }
-        return Optional.empty();
-    }
-
 }
