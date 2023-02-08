@@ -21,11 +21,10 @@ $ mvn spring-boot:run
 
 __Endpoints__
 
-Now that we’ve learned about the anatomy of our endpoints and the different request methods that we should use, it’s time for some examples:
 
 | Method   | URL                                      | Description                              |
 | -------- | ---------------------------------------- | ---------------------------------------- |
 | `POST`   | `/createGarage/{numberOfFloors}/{numberOfParkSpots}`  | Creates the garage by taking the first parameter as the nuber of floors and second as park spots on a floor|
-| `GET`    | `/getSpots`                          | Returns the number of fully empty parking spots                       |
+| `GET`    | `/getSpots`                          | Returns the number of empty parking spots                       |
 | `POST`   | `/checkIn`                 | Takes the vehicle object as the request body and creates a ticket if there is enough space in garage    |
-| `POST`   | `/checkOut`                 | Takes the vehicle object as the request body and update the relevant ticket by giving the payment info |
+| `POST`   | `/checkOut`                 | Takes the vehicle object as the request body and updates the relevant ticket by giving the payment info |
